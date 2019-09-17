@@ -1,0 +1,261 @@
+/**
+ * 文 件 名：
+ * 描 述：
+ * 作 者：
+ * 时 间：
+ * 版 权
+ */
+
+#include"find2.h"
+/**/
+ void find1(){
+        char name[50];
+        struct list *start=NULL;
+        start =(struct list *)malloc(sizeof(struct list));
+        /*创建链表*/
+        create_list(start,NULL);
+        /*输入查找名字*/
+        while(1){
+          gets(name);
+
+          if(strcmp(name,"exit")==0)
+              exit(0);
+          /*返回查找的节点*/
+         find_list(start,name);
+    
+        }
+ }
+/*创建链表*/
+void create_list(struct list *node,struct list *temp){
+
+        FILE *fp;
+        char tmp;
+        int i=0,j=0,k=0;
+        struct list *tm;
+
+        fp=fopen("hazaTest.txt","r");
+
+        
+        /*直到文件内容读取结束*/
+        while(!feof(fp)){
+          /*分别记录每个名字信息以及内容*/
+          i=0;
+          j=0;
+          if((tmp=fgetc(fp))=='#'){  
+                  node->name[i]=tmp;
+                  i++;
+            while((tmp=node->name[i]=fgetc(fp))!='\n')
+          {
+            i++;
+          }
+          /*将文件最后转换为结束符号*/
+          node->name[i]='\0';
+          if(tmp=='\n')
+          {
+            while((node->info[j]=fgetc(fp))!='\n'){
+              j++;
+            }
+          }
+
+          }
+          node->next =(struct list *)malloc(sizeof(struct list));
+          node = node->next;
+        }
+
+     
+
+      
+}
+/*FIND*/
+void find_list(struct list *node,char *findname)
+{
+    
+    struct list *mv=NULL;
+    int flag=0;
+    mv=node;
+   
+    while(mv!=NULL){
+      if((strcmp(mv->name,findname))==0){
+        printf("%s\n",mv->info );
+        mv=mv->next;
+        flag=1;
+
+      }
+      else{
+        mv=mv->next;
+      }
+  }
+  if(flag==0){
+    printf("没有输入的物质，请重新输入，或者尝试以下操作\n");
+    printf(".\app find1 -f 新建文件夹操作\n");
+  }
+}
+/**/
+void addFind1(){
+        char name[50];
+        struct list *start=NULL;
+        start =(struct list *)malloc(sizeof(struct list));
+        /*创建链表*/
+        create_list(start,NULL);
+        /*输入查找名字*/
+        while(1){
+          gets(name);
+
+          if(strcmp(name,"exit")==0)
+              exit(0);
+
+          /*返回查找的节点*/
+         find_list2(start,name);
+    
+        }
+ }
+void find_list2(struct list *node,char *findname)
+{
+    
+    struct list *mv=NULL;
+    int flag=0;
+    mv=node;
+   
+    while(mv!=NULL){
+      if((strcmp(mv->name,findname))==0){
+        printf("%s\n",mv->info );
+        mv=mv->next;
+        flag=1;
+
+      }
+      else{
+        mv=mv->next;
+      }
+  }
+  if(flag==0){
+    
+    
+    findf(findname);
+  }
+}
+void findf(char *findname){
+        char name[50];
+        strcpy(name,findname);
+        struct list *start=NULL;
+        start =(struct list *)malloc(sizeof(struct list));
+        /*创建链表*/
+        create_list1(start);
+        /*输入查找名字*/
+        //while(1){
+         //scanf("%s",name);
+
+          if(strcmp(name,"exit")==0)
+              exit(0);
+          /*返回查找的节点*/
+         find_list1(start,name);
+    
+        //}
+ }
+
+/*FIND*/
+void find_list1(struct list *node,char *findname)
+{
+    
+    struct list *mv=NULL;
+    int flag=0;
+     mv=node;
+   
+     while(mv!=NULL){
+       if((strcmp(mv->name,findname))==0){
+         printf("%s\n",mv->info );
+         mv=mv->next;
+        flag=1;
+
+       }
+       else{
+         mv=mv->next;
+       }
+  }
+  if(flag==0){
+    insert();
+    //create_list1(node);
+    return;
+  }
+}
+/*创建链表*/
+void create_list1(struct list *node){
+
+        FILE *fp;
+        char tmp;
+        int i=0,j=0,k=0;
+        struct list *tm;
+
+        fp=fopen(filename,"r");
+
+        
+        /*直到文件内容读取结束*/
+        while(!feof(fp)){
+          /*分别记录每个名字信息以及内容*/
+          i=0;
+          j=0;
+          if((tmp=fgetc(fp))=='#'){ 
+           node->name[i]=tmp;
+                  i++;     
+            while((tmp=node->name[i]=fgetc(fp))!='\n')
+          {
+            i++;
+          }
+
+          /*将文件最后转换为结束符号*/
+          node->name[i]='\0';
+          if(tmp=='\n')
+          {
+            while((node->info[j]=fgetc(fp))!='\n'){
+              j++;
+            }
+          }
+
+          }
+          node->next =(struct list *)malloc(sizeof(struct list));
+          node = node->next;
+        }      
+}
+
+ /*insert*/
+ void insert(){
+  FILE *fp;
+  char b[1000];
+  char c[100];
+  
+  printf("是否要添加此数据:是/否\n");
+  scanf("%s",c);
+  if(strcmp(c,"yes")==0){
+  fp=fopen(filename,"a");
+  printf("请以#物质名 INFO：类别@检测方法@检测仪器@检测标准@最低检出浓度@采样体积@样品收集器@采样流量@样品保留时间@保存条件@检测室@CMA认可@备注@吸收液的格式输入，若其中任一信息没有，就输入--来代替\n");
+  scanf("%s",b);
+  fputs(b,fp);
+  fclose(fp);
+    }
+  return;
+}
+
+void addFind2(){
+  int MATNUM;
+  MATNUM=count();
+  node hazanode[MATNUM];
+  node *root=NULL;
+  node *nodetmp;
+  nodetmp=&hazanode[0];
+  indexTree(nodetmp);
+
+  int flag;
+  for(int i=0;i<MATNUM;i++){
+  insertNode(&root,nodetmp);
+  nodetmp++;
+  }
+  char str[200]={'\0'};
+  while(1){
+    flag=0;
+    scanf("%s",str);
+    if(strcmp(str,"exit")==0)
+      return;
+    findTree(root,str,&flag);
+    if(flag==0)
+      findf(str);     
+  }
+}
